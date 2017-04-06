@@ -1,0 +1,2 @@
+set –o ignoreeof
+
