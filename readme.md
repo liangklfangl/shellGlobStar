@@ -380,7 +380,6 @@ filelist=$(find ./ -name "[a-z]*.sh")
 echo "name文件查询结果:"$filelist 
 ```
 一定要注意，使用-name或者-iname是`通配符而不是正则表达式`!而且最好将通配符使用引号扩起来
-
 #### 3.3使用type查找
 ```bash
 declare currentFolder=$(cd `dirname $0`;pwd)
@@ -402,7 +401,6 @@ p: 管道文件(pipe)
 b: 块设备文件
 c: 字符设备文件
 </pre>
-
 #### 3.4 uid/gid/user等查找
 ```bash
 declare currentFolder=$(cd `dirname $0`;pwd)
@@ -422,7 +420,6 @@ echo "uid/gid/user文件查询结果:"$filelist
 -nogroup
 </pre>
 注意：此时获取到的是文件的`绝对路径`！
-
 #### 3.5文件大小查找
 ```bash
 declare currentFolder=$(cd `dirname $0`;pwd)
@@ -432,7 +429,6 @@ filelist=$(find $currentFolder -type f -size -3k)
 echo "size文件查询结果:"$filelist 
 ```
 注意：`默认单位是b，而它代表的是512字节，所以2表示1K，1M则是2048，如果不想自己转换，可以使用其他单位，如c、K、M等。`
-
 #### 3.5 ctime,atime,mtime查询
 首先我们[弄清楚三者的区别](http://blog.chinaunix.net/uid-24500107-id-2602881.html)：
 
@@ -472,7 +468,6 @@ echo "10分钟内没有修改的文件:"$ctime
 echo "1天以内没有访问的文件:"$atime
 echo "24小时之内没有修改的文件:"$mtime
 ```
-
 #### 3.6 权限查询
 基本说明如下：
 <pre>
@@ -488,7 +483,6 @@ find . -perm /464 -ls
 #显示当前目录下文件权限的某一位至少包含r–rx-r–的文件的详细信息
 ```
 其中关于[权限信息的文章请查看这里](https://github.com/liangklfangl/npm-command)
-
 #### 3.7组合查询
 ```bash
 declare currentFolder=$(cd `dirname $0`;pwd)
@@ -503,7 +497,6 @@ echo "size文件查询结果:"$filelist
 -o: or 
 -not:
 </pre>
-
 #### 3.8 find的后继操作命令
 <pre>
 -print: 显示
@@ -619,7 +612,173 @@ cd ./tmp/n
 ```bash
 . ./test.sh
 ```
-此时你会发现，控制台路径已经变化为./tmp/n了
+此时你会发现，控制台路径已经变化为./tmp/n了。子shell的概念，你可以[点击这里](http://man.linuxde.net/xargs)
+
+### 5.grep命令
+grep (global search regular expression(RE) and print out the line,全面搜索正则表达式并把行打印出来)是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来
+#### 5.1获取含有某个字符串的文件-r/-d  skip
+```bash
+declare path=$(cd `dirname $0`;pwd)
+files=`grep magic $path/*`
+#等号两边没有空格,必须是$path/*而不是$path,否则报错说是一个文件夹而不是有效的路径
+echo "含有magic字段的文件为\n"$files
+#此时会打印所有的含有`magic`单词的文件完整文件名和出现该单词的一行的内容，注意：
+#一个文件可能会打印多行
+
+#上面这种方式无法搜索该目录下的inner子目录，输出内容为：
+#grep: /c/Users/Administrator/Desktop/shellGlobStar/src/grep/inner: Is a directory
+filess1=`grep -r magic $path/*`
+#明确要求搜索子目录
+#此时inner目录内的文件也会被搜索出来
+filess2=`grep -d skip magic $path/*`
+#明确要求忽略子目录，inner目录的文件没有被搜出
+filess3=`grep magic $path/* | less`
+#通过管道将输出转移到less中阅读
+echo -e "明确搜索子目录\n"$filess1
+echo -e "明确忽略子目录\n"$filess2
+echo -e "明确将管道输出到less\n"$filess3
+```
+打印结果如下:
+```js
+含有magic字段的文件为/c/Users/Administrator/Desktop/shellGlobStar/src/grep/grep-content.sh:files=`grep magic $path/*`
+ /c/Users/Administrator/Desktop/shellGlobStar/src/grep/grep-content.sh:echo "含有magic字段的文件为"$files
+  /c/Users/Administrator/Desktop/shellGlobStar/src/grep/magic1.txt:This is magic 1 file 
+  /c/Users/Administrator/Desktop/shellGlobStar/src/grep/magic2.txt:This is magic 2 file
+```
+从命令`grep -r magic $path/*`的输出你可以看到：grep-content.sh有两行都出现了`magic`字符串，所以打印了两次!通过这种方式我们获取到含有某个字符串的文件!同时这里也给出了如何在shell中`打印换行符的方式`！
+
+#### 5.2 grep-i/I的区别
+```bash
+declare path=$(cd `dirname $0`;pwd)
+filelist=`grep -i -d skip "magic" $path/*`
+echo -e "忽略子文件夹的同时不区分pattern与输入:\n"$filelist
+# Ignore case distinctions in both the `PATTERN` and the input files.
+filelist1=`grep -I -d skip "magic" $path/*`
+echo -e "和-i的区别在于二进制数据，-I认为二进制数据默认就是不匹配的，和--binary-files=without-match一样:\n"$filelist
+```
+-i和-I的区别在于二进制数据，-I认为二进制数据默认就是不匹配的，和--binary-files=without-match一样。而且对于
+#### 5.3 grep-L列出`所有`不符合pattern的文件名
+```bash
+declare path=$(cd `dirname $0`;pwd)
+filelist=`grep -L -d skip "magic" $path/*`
+echo -e "不输出文件的内容，只输出文件名，找到第一个文件时候退出:\n"$filelist
+#/c/Users/Administrator/Desktop/shellGlobStar/src/grep/magic1.txt 
+#/c/Users/Administrator/Desktop/shellGlobStar/src/grep/no-magic.txt
+# /c/Users/Administrator/Desktop/shellGlobStar/src/grep/no-magic1.txt
+```
+这时候有三个文件不含有`magic`或者大小写不一样的。因为magic1.txt中含有的是`MAGIC`而不是`magic`所以也就被列举出来的！
+#### 5.4 grep-w完全匹配字符串
+```text
+Magic is what?
+How do you know magic?
+Where magic is lay?
+This is magic?
+This .magic is?
+```
+shell脚本如下：
+```bash
+declare path=$(cd `dirname $0`;pwd)
+filelist=`grep -w -d skip "magic" $path/grep-w.txt`
+echo -e "只有完全匹配才行:\n"$filelist
+```
+此时第一个第二个,第三个,第四个都会匹配。注意：如果一个字符串前面没有`字母，数字，下划线`同时后面也没有`字母，数字，下划线`那么其就会匹配，所以第五个文本也会匹配！注意，即使是`This 。magic is?`也会匹配了，因为中文句号被看做一个非英文字符，而不是单词的一部分了！
+#### 5.5 grep-n的命令
+可以显示搜索结果的行号：
+```bash
+declare path=$(cd `dirname $0`;pwd)
+filelist=`grep -n -d skip "magic" $path/grep-w.txt`
+#显示行号
+echo -e "显示行数:\n"$filelist
+```
+#### 5.6 grep-v反向选择
+```bash
+declare path=$(cd `dirname $0`;pwd)
+filelist=`grep -n -d skip  "magic" $path/grep-w.txt`
+#显示行号
+filelist1=`grep -n -v -d skip   "magic" $path/grep-w.txt`
+#-v可以用于反向选择显示，即显示不含有'magic'的行
+echo -e "含有magic的行:\n"$filelist
+#显示有'magic'的行
+echo -e "不含有magic的行:\n"$filelist1
+```
+#### 5.7 grep+dmesg的组合列出核心信息
+```bash
+ declare path=$(cd `dirname $0`;pwd)
+ dmesg | grep -n -d skip -A3 -B2 --color=auto "magic" $path/dmesg.txt
+ #显示行号的同时我们高亮显示,同时将关键行的前两行与后两行都显示出来
+ #其中如A3，B2的部分全部在前面添加上
+```
+显示行号的同时我们高亮显示,同时将关键行的前两行与后两行都显示出来,而不是关键的行前面都有`-`号~
+#### 5.8 grep与正则表达式匹配
+行首与行尾字节，即 `^ $`，下面是一个例子：
+```bash
+grep -n '^the' regular_express.txt
+#其中^表示行首
+grep -n '\.$' regular_express.txt
+#行尾以`.`来结束的行，此时必须注意要转义!
+grep -n '^$' regular_express.txt
+#表示空白行
+grep -n 'o\{2\}' regular_express.txt
+#表示`o`这个字符出现2次以及以上次数，因为{}在shell中有特殊意义，所以需要转义
+grep -n 'go\{2,5\}g' regular_express.txt
+#中间有2-5个`o`字符
+grep -n 'goo*g' regular_express.txt
+#中间至少有一个`o`字符
+grep -n 'g..d' regular_express.txt
+#中间两个为任意字符
+```
+任意一个字节 . 与重复字节 *，这两个符号在正则表达式的意义如下：
+
+. (小数点)：代表`『一定有一个任意字节』`的意思；
+
+* (星号)：代表`『重复前一个字符， 0 到无穷多次』`的意思，为组合形态
+
+#### 5.9 grep中学习单引号与双引号的区别
+```bash
+echo "`date`"
+#获取当前的时间
+echo '`date`'
+#原样输出`date`
+echo "$HOME"
+#获取系统根目录,/c/Users/Administrator
+echo '$HOME'
+#原样输出$HOME
+```
+总之：单引号中`完全是保持字符串的原型输出`，而双引号进行了`命令替换`.
+
+shell脚本中的单引号和双引号一样都是字符串的界定符，而不是字符的界定符。单引号用于保持引号内所有字符的字面值，即使引号内的`\和回车`也不例外，但是字符串中不能出现单引号。（注意是所有，只是单引号本身不能够出现在其中）。
+
+双引号用于保持引号内所有字符的字面值（`回车也不例外`），但以下情况除外：
+<pre>
+$加变量名可以取变量的值，如declare sex="male";echo $sex;
+反引号仍表示命令替换,如"`date`"仍然表示运行date命令
+\$表示$的字面值,如echo "\$"将打印$
+\`表示的字面值,如echo "\`"将会得到`字符
+\"表示"的字面值，如 echo "\""将会得到"这个字符
+\\表示\的字面值,如` echo "\\"`将得到`\`
+除以上情况之外，在其它字符前面的\无特殊含义，只表示字面值。如echo "\."得到\.
+</pre>
+
+#### 5. 其他grep组合
+<pre>
+grep pattern1 | pattern2 files ：显示匹配 pattern1 `或` pattern2 的行， 
+grep pattern1 files | grep pattern2 ：显示既匹配 pattern1 `又`匹配 pattern2 的行 
+</pre>
+这里还有些用于搜索的特殊符号： 
+\< 和 \> 分别标注`单词的开始与结尾`。 
+例如： 
+grep man * 会匹配 ‘batman’、‘manic’、‘man’等， 
+
+grep '\<man' * 匹配‘manic’和‘man’，但不是‘batman’， 
+
+grep '\<man\>' 只匹配‘man’，而不是‘batman’或‘manic’等其他的字符串。
+
+'^'：指匹配的字符串在行首， 
+
+'$'：指匹配的字符串在行尾， 
+
+ 关于在shell中有特殊意义的字符，你应该[仔细阅读](./src/symbols/readme.md)一下!
+
 
 
 
@@ -673,3 +832,38 @@ cd ./tmp/n
 [xargs 命令](http://www.cnblogs.com/xuxm2007/archive/2010/12/02/1894798.html)
 
 [ 父Shell与子Shell](http://blog.csdn.net/a600423444/article/details/6451111)
+
+[ shell echo打印换行的方法](http://blog.csdn.net/lixiaohuiok111/article/details/18313039)
+
+[grep命令的详细使用方法](http://blog.csdn.net/hnlyyk/article/details/46861479)
+
+[linux grep命令详解](http://www.cnblogs.com/ggjucheng/archive/2013/01/13/2856896.html)
+
+[Linux Shell中的特殊符号和含义简明总结（包含了绝大部份）](http://www.jb51.net/article/51342.htm)
+
+[shell脚本中单引号和双引号的区别](http://blog.csdn.net/luo6620378xu/article/details/9081417)
+
+[shell中各种括号的作用()、(())、[]、[[]]、{}](http://www.cnblogs.com/fengkui/p/6122702.html)
+
+[ shell中的冒号“：”--个人整理总结版-注意与makfle中:的区别](http://blog.csdn.net/honghuzhilangzixin/article/details/7073312)
+
+
+### 1.man命令
+[Linux Shell man 命令详细介绍](http://blog.jobbole.com/93404/)
+
+[浅谈 man 命令的日常使用](http://www.cnblogs.com/zhangmingcheng/p/5757269.html)
+
+[package.json中的man配置](https://docs.npmjs.com/files/package.json)
+
+### 2.cat命令
+掌握以下如下常用命令：
+```js
+cat file1.js//查看
+cat -n file1.js//编号查看
+cat -b file1.js//和上面一样，但是不会给空行编号
+cat file1.js file2.js > file.js//合并文件
+```
+你可以阅读[Linux cat命令的使用](http://www.cnblogs.com/fabulousyoung/p/4079759.html)，下面在给出一个例子：
+```js
+cat static/pages/*.css tabs/*/*.css > file.css
+```
