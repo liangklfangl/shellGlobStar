@@ -784,6 +784,21 @@ grep '\<man\>' 只匹配‘man’，而不是‘batman’或‘manic’等其他
 关于该命令的用法你可以[查看这里](./src/cat/readme.md)
 
 
+### 7.man命令
+你可以阅读下面几篇文章：[Linux Shell man 命令详细介绍](http://blog.jobbole.com/93404/)，[浅谈 man 命令的日常使用](http://www.cnblogs.com/zhangmingcheng/p/5757269.html)，[package.json中的man配置](https://docs.npmjs.com/files/package.json)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 参考文献：
 
@@ -848,24 +863,3 @@ grep '\<man\>' 只匹配‘man’，而不是‘batman’或‘manic’等其他
 [shell中各种括号的作用()、(())、[]、[[]]、{}](http://www.cnblogs.com/fengkui/p/6122702.html)
 
 [ shell中的冒号“：”--个人整理总结版-注意与makfle中:的区别](http://blog.csdn.net/honghuzhilangzixin/article/details/7073312)
-
-
-### 1.man命令
-[Linux Shell man 命令详细介绍](http://blog.jobbole.com/93404/)
-
-[浅谈 man 命令的日常使用](http://www.cnblogs.com/zhangmingcheng/p/5757269.html)
-
-[package.json中的man配置](https://docs.npmjs.com/files/package.json)
-
-### 2.cat命令
-掌握以下如下常用命令：
-```js
-cat file1.js//查看
-cat -n file1.js//编号查看
-cat -b file1.js//和上面一样，但是不会给空行编号
-cat file1.js file2.js > file.js//合并文件
-```
-你可以阅读[Linux cat命令的使用](http://www.cnblogs.com/fabulousyoung/p/4079759.html)，下面在给出一个例子：
-```js
-cat static/pages/*.css tabs/*/*.css > file.css
-```
