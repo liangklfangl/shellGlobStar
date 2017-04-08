@@ -787,18 +787,19 @@ grep '\<man\>' 只匹配‘man’，而不是‘batman’或‘manic’等其他
 ### 7.man命令
 你可以阅读下面几篇文章：[Linux Shell man 命令详细介绍](http://blog.jobbole.com/93404/)，[浅谈 man 命令的日常使用](http://www.cnblogs.com/zhangmingcheng/p/5757269.html)，[package.json中的man配置](https://docs.npmjs.com/files/package.json)
 
+### 8.其他内容
+该部分内容来自于工作中遇到的一些问题，不和具体的命令有关，你可以[查看这里](./src/others/readme.md)。
+
+
+<pre>
+  
 
 
 
 
 
 
-
-
-
-
-
-
+</pre>
 
 参考文献：
 
