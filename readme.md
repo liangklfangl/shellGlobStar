@@ -1,4 +1,4 @@
-#####注意：因为个人专注于前端开发，所以很多shell命令可能没有接触到，下面列举的只是自己常用的一些命令，如果你需要更加深入的学习shell命令建议你查看[官方文档](https://ss64.com/bash/),你也可以阅读[linux命令大全](http://man.linuxde.net/xargs)，或者阅读文末的参考资料。文中涉及的例子都在src目录下，每一个命令有一个文件夹，因此你可以直接运行相应文件夹下的shell命令！
+ 注意：因为个人专注于前端开发，所以很多shell命令可能没有接触到，下面列举的只是自己常用的一些命令，如果你需要更加深入的学习shell命令建议你查看[官方文档](https://ss64.com/bash/),你也可以阅读[linux命令大全](http://man.linuxde.net/xargs)，或者阅读文末的参考资料。文中涉及的例子都在src目录下，每一个命令有一个文件夹，因此你可以直接运行相应文件夹下的shell命令！
 
 
 ### 1.set命令
@@ -759,7 +759,7 @@ $加变量名可以取变量的值，如declare sex="male";echo $sex;
 除以上情况之外，在其它字符前面的\无特殊含义，只表示字面值。如echo "\."得到\.
 </pre>
 
-#### 5. 其他grep组合
+#### 5.10 其他grep组合
 <pre>
 grep pattern1 | pattern2 files ：显示匹配 pattern1 `或` pattern2 的行， 
 grep pattern1 files | grep pattern2 ：显示既匹配 pattern1 `又`匹配 pattern2 的行 
@@ -780,6 +780,8 @@ grep '\<man\>' 只匹配‘man’，而不是‘batman’或‘manic’等其他
  关于在shell中有特殊意义的字符，你应该[仔细阅读](./src/symbols/readme.md)一下!
 
 
+### 6.cat命令
+关于该命令的用法你可以[查看这里](./src/cat/readme.md)
 
 
 

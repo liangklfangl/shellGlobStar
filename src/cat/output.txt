@@ -1,0 +1,5 @@
+Content of cat.txthello
+world
+:q
+hello
+exit
