@@ -187,6 +187,9 @@ echo "sex=$sex,location=$location,des=$des"
 ### 5.linux中的一些基础内容，如颜色等
 你可以[查看这个文档](./linux-foundation.md)
 
+### 5.linux中逻辑运算符
+你可以[查看这个文档](../symbols/pipe.md)
+
 
 参考资料：
 
