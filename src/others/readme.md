@@ -176,6 +176,10 @@ echo "echo输出"$REPLY
 #那么将会打印：sex=male,location=hangzhou,des=hunan dalian hefei shanghai
 echo "sex=$sex,location=$location,des=$des"
 ```
+此处说明了$REPLY,$IFS的用法，同时也展示了`使用printf来打印ASCII的方法`！
+
+### 3.linux中的link命令
+其中link命令的学习，你可以[查看这个文档](./link-hard-soft.md)。
 
 
 
