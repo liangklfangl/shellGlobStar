@@ -178,9 +178,14 @@ echo "sex=$sex,location=$location,des=$des"
 ```
 此处说明了$REPLY,$IFS的用法，同时也展示了`使用printf来打印ASCII的方法`！
 
-### 3.linux中的link命令
+### 3.linux中的link命令,即软连接与硬链接
 其中link命令的学习，你可以[查看这个文档](./link-hard-soft.md)。
 
+### 4.linux中的alias命令
+其中linux的命令的学习，你可以[查看这个文档](../alias/read.md)
+
+### 5.linux中的一些基础内容，如颜色等
+你可以[查看这个文档](./linux-foundation.md)
 
 
 参考资料：

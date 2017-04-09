@@ -779,15 +779,28 @@ grep '\<man\>' 只匹配‘man’，而不是‘batman’或‘manic’等其他
 
  关于在shell中有特殊意义的字符，你应该[仔细阅读](./src/symbols/readme.md)一下!
 
-
 ### 6.cat命令
 关于该命令的用法你可以[查看这里](./src/cat/readme.md)
-
 
 ### 7.man命令
 你可以阅读下面几篇文章：[Linux Shell man 命令详细介绍](http://blog.jobbole.com/93404/)，[浅谈 man 命令的日常使用](http://www.cnblogs.com/zhangmingcheng/p/5757269.html)，[package.json中的man配置](https://docs.npmjs.com/files/package.json)
 
-### 8.其他内容
+### 8.alias命令
+你可以[阅读这个文档](./src/alias/readme.md)。
+
+### 9.linux的link命令
+你可以[阅读这个文档](./src/others/link-hard-soft.md)。
+
+### 10.linux中的一些目录作用与颜色等
+你可以[查看这个文档](./src/others/linux-foundation.md)
+
+### 11.linux中的history命令与快捷键
+你可以[查看这个文档](./src/history/readme.md)
+
+### 12.linux中输入输出设备与重定向
+你可以[查看这个文档](./src/others/stdin-out.md)
+
+### 9.其他内容
 该部分内容来自于工作中遇到的一些问题，不和具体的命令有关，你可以[查看这里](./src/others/readme.md)。
 
 
