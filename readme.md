@@ -801,7 +801,7 @@ grep '\<man\>' 只匹配‘man’，而不是‘batman’或‘manic’等其他
 你可以[查看这个文档](./src/others/stdin-out.md)
 
 ### 13.其他内容
-该部分内容来自于工作中遇到的一些问题，不和具体的命令有关，你可以[查看这里](./src/others/readme.md)。
+该部分内容来自于工作中遇到的一些问题，不和具体的命令有关，你可以[查看这里](./src/others/readme.md)以及[这里](https://github.com/liangklfang/spawn-command)
 
 
 <pre>
